@@ -25,7 +25,7 @@ def fetch_and_clean_content(version, sections_to_include):
     # Replace dots with underscores in the version number
     version = version.replace('.', '_')
     url = f"https://raw.githubusercontent.com/elastic/elasticsearch/8.17/docs/reference/migration/migrate_{version}.asciidoc"
-    print(f"Fetching content from: {url}")  # Debugging: Print the URL being accessed
+    #print(f"Fetching content from: {url}")  # Debugging: Print the URL being accessed
     response = requests.get(url)
 
     if response.status_code != 200:
@@ -39,7 +39,7 @@ def fetch_and_clean_content(version, sections_to_include):
     cleaned_content = cleaned_content.replace("{es}", "Elasticsearch")
 
     # Debugging: Print a snippet of the fetched content
-    print(f"Fetched content for version {version}:\n", cleaned_content[:500])
+    #print(f"Fetched content for version {version}:\n", cleaned_content[:500])
 
     # Check for the presence of Deprecations and Notable changes
     has_deprecations = "=== Deprecations" in cleaned_content
@@ -153,7 +153,7 @@ def main():
 
     if version_input == 'single':
         while True:
-            version = input("Enter the version you want to fetch from 8.0-latest version (e.g., 8.1, 8.15): ").strip()
+            version = input("Enter the version you want to fetch from 8.0-latest version (e.g., 8.5): ").strip()
             if is_valid_version(version):
                 break
             else:
@@ -162,7 +162,7 @@ def main():
         print(f"Fetching content for version {version}...")
         # Ask for section selection with a while loop to validate input
         while True:
-            sections_input = input("Which sections do you want to include? (1 - All, 2 - Breaking Changes, 3 - Notable Changes, 4 - Deprecations): ").strip()
+            sections_input = input("Which section do you want to include (Select only one option)? (1 - All, 2 - Breaking Changes, 3 - Notable Changes, 4 - Deprecations): ").strip()
             if sections_input in ['1', '2', '3', '4']:
                 break  # Exit the loop if valid input is given
             else:
@@ -180,13 +180,13 @@ def main():
     
     elif version_input == 'range':
         while True:
-            from_version = input("Enter the 'from' version from 8.0-latest version (e.g., 8.1, 8.15): ").strip()
+            from_version = input("Enter the 'from' version from 8.0-latest version (e.g., 8.5): ").strip()
             if is_valid_version(from_version):
                 break
             else:
                 print("Invalid version. Please enter versions between 8.0 and 8.19.")
         while True:
-            to_version = input("Enter the 'to' version from 8.0-latest version (e.g., 8.1, 8.15): ").strip()
+            to_version = input("Enter the 'to' version from 8.0-latest version (e.g., 8.5): ").strip()
             if is_valid_version(to_version):
                 break
             else:
@@ -194,7 +194,7 @@ def main():
 
         # Ask for section selection with a while loop to validate input
         while True:
-            sections_input = input("Which sections do you want to include? (1 - All, 2 - Breaking Changes, 3 - Notable Changes, 4 - Deprecations): ").strip()
+            sections_input = input("WWhich section do you want to include (Select only one option)? (1 - All, 2 - Breaking Changes, 3 - Notable Changes, 4 - Deprecations): ").strip()
             if sections_input in ['1', '2', '3', '4']:
                 break  # Exit the loop if valid input is given
             else:
@@ -220,7 +220,7 @@ def main():
         while (current_major < end_major) or (current_major == end_major and current_minor <= end_minor):
             # Format version to match the URL pattern
             current_version = f"{current_major}.{current_minor}"
-            print(f"Debug: Current version: {current_version}")  # Debugging print statement
+            #print(f"Debug: Current version: {current_version}")  # Debugging print statement
             version_content = fetch_and_clean_content(current_version, sections_to_include)
             if version_content:
                 all_content += version_content + "\n\n"  # Combine the content
